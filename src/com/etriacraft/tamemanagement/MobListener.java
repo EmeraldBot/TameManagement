@@ -9,12 +9,9 @@ import me.ryanhamshire.GriefPrevention.GriefPrevention;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_6_R2.entity.CraftHorse;
 import org.bukkit.entity.AnimalTamer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Horse;
-import org.bukkit.entity.Horse.Color;
 import org.bukkit.entity.Ocelot;
 import org.bukkit.entity.Ocelot.Type;
 import org.bukkit.entity.Player;
@@ -26,8 +23,6 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 
 public class MobListener implements Listener {
 
@@ -76,6 +71,9 @@ public class MobListener implements Listener {
 			if (damaged instanceof Tameable) {
 				if (((Tameable) damaged).isTamed()) {
 					AnimalTamer tameOwner = ((Tameable) damaged).getOwner();
+					if (tameOwner == null) {
+						e.setCancelled(false);
+					}
 					if (plugin.getConfig().getBoolean("ProtectTames") == true) {
 						if (griefpreventionsupport == true) {
 							Location loc = damaged.getLocation();
@@ -85,7 +83,7 @@ public class MobListener implements Listener {
 							}
 						}
 						if (!p.getName().equals(tameOwner.getName())) {
-							p.sendMessage("§cYou can't damage an animal that doesn't belong to you.");
+							p.sendMessage("§cThis animal belongs to §3" + tameOwner.getName());
 							e.setCancelled(true);
 						}
 					}
@@ -128,7 +126,7 @@ public class MobListener implements Listener {
 								e.setCancelled(false);
 							}
 							if (!currentOwner.getName().equals(p.getName()) && !p.hasPermission("tamemanagement.protecthorses.override")) {
-								p.sendMessage("§cYou can't interact with a horse you do not own.");
+								p.sendMessage("§cYou can't interact with §3" + currentOwner.getName() + "'s §chorse.");
 								e.setCancelled(true);
 							}
 						}
@@ -138,7 +136,7 @@ public class MobListener implements Listener {
 				if (horsestyles.containsKey(p.getName())) {
 					if (horse.isTamed()) {
 						if (!currentOwner.getName().equals(p.getName())) {
-							p.sendMessage("§cYou can't change the style on a horse that you do not own.");
+							p.sendMessage("§cYou can't change the style on §3" + currentOwner.getName() + "'s §chorse.");
 							horsestyles.remove(p.getName());
 							e.setCancelled(true);
 						} else {
@@ -152,7 +150,7 @@ public class MobListener implements Listener {
 				if (horsecolors.containsKey(p.getName())) {
 					if (horse.isTamed()) {
 						if (!currentOwner.getName().equals(p.getName())) {
-							p.sendMessage("§cYou can't change the color of a horse you don't own.");
+							p.sendMessage("§cYou can't change the color of §3" + currentOwner.getName() + "'s §chorse.");
 							horsecolors.remove(p.getName());
 							e.setCancelled(true);
 						} else {
@@ -166,7 +164,7 @@ public class MobListener implements Listener {
 				if (horsevariants.containsKey(p.getName())) {
 					if (horse.isTamed()) {
 						if (!currentOwner.getName().equals(p.getName())) {
-							p.sendMessage("§cYou can't change the variant of a horse you don't own.");
+							p.sendMessage("§cYou can't change the variant of §3" + currentOwner.getName() + "'s §chorse.");;
 							horsevariants.remove(p.getName());
 							e.setCancelled(true);
 						} else {
@@ -182,7 +180,7 @@ public class MobListener implements Listener {
 			// This code runs on the /tame release command.
 			if (releases.containsKey(p.getName())) {
 				if (!p.getName().equals(currentOwner.getName())) {
-					p.sendMessage("§cYou do not own this animal.");
+					p.sendMessage("§cThis animal belongs to §3" + currentOwner.getName() + "§c. Not you.");
 					return;
 				}
 				((Tameable) entity).setOwner(null);
@@ -208,7 +206,7 @@ public class MobListener implements Listener {
 			if (transfers.containsKey(p.getName())) {
 				String newOwner = transfers.get(p.getName());
 				if (!p.getName().equals(currentOwner.getName())) {
-					p.sendMessage("§cYou do not own this animal.");
+					p.sendMessage("§cThis animal belongs to §3" + currentOwner.getName() + "§c. Not you.");
 					return;
 				}
 				Player p2 = Bukkit.getPlayer(newOwner);
