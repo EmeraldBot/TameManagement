@@ -52,6 +52,16 @@ public class TameManagement extends JavaPlugin {
 			// Failed to Submit Stats
 		}
 		configCheck();
+		
+		if (getConfig().getBoolean("RespectGriefPrevention")) {
+			if (getServer().getPluginManager().getPlugin("GriefPrevention") != null) {
+				this.log.info("GriefPrevention Support enabled.");
+				MobListener.griefpreventionsupport = true;
+			} else {
+				this.log.info("GriefPrevention not found.");
+				MobListener.griefpreventionsupport = false;
+			}
+		}
 	}
 
 	public void firstRun() throws Exception {
@@ -107,6 +117,9 @@ public class TameManagement extends JavaPlugin {
 			this.log.info("Config Outdated. Updating.");
 			if (!getConfig().contains("ProtectTames")) {
 				getConfig().set("ProtectTames", true);
+			}
+			if (!getConfig().contains("RespectGriefPrevention")) {
+				getConfig().set("RespectGriefPrevention", false);
 			}
 			if (!getConfig().contains("AllowTransfers")) {
 				getConfig().set("AllowTransfers", true);

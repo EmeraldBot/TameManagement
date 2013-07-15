@@ -4,7 +4,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import me.ryanhamshire.GriefPrevention.Claim;
+import me.ryanhamshire.GriefPrevention.GriefPrevention;
+
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_6_R2.entity.CraftHorse;
 import org.bukkit.entity.AnimalTamer;
@@ -29,6 +33,7 @@ public class MobListener implements Listener {
 
 	TameManagement plugin;
 
+	public static boolean griefpreventionsupport;
 	public static HashMap<String, String> transfers = new HashMap();
 	public static HashMap<String, String> releases = new HashMap();
 	public static HashMap<String, Horse.Style> horsestyles = new HashMap();
@@ -72,6 +77,13 @@ public class MobListener implements Listener {
 				if (((Tameable) damaged).isTamed()) {
 					AnimalTamer tameOwner = ((Tameable) damaged).getOwner();
 					if (plugin.getConfig().getBoolean("ProtectTames") == true) {
+						if (griefpreventionsupport == true) {
+							Location loc = damaged.getLocation();
+							Claim claim = GriefPrevention.instance.dataStore.getClaimAt(loc, true, null);
+							if (claim.allowAccess(p).equals(null)) {
+								e.setCancelled(false);
+							}
+						}
 						if (!p.getName().equals(tameOwner.getName())) {
 							p.sendMessage("§cYou can't damage an animal that doesn't belong to you.");
 							e.setCancelled(true);
@@ -104,13 +116,21 @@ public class MobListener implements Listener {
 				}
 				// Runs this code on the /tame horse setstyle command.
 				if (plugin.getConfig().getBoolean("ProtectHorses")) {
-					if (horse.isTamed()) {
-						if (currentOwner == null) {
+					if (griefpreventionsupport == true) {
+						Location loc = horse.getLocation();
+						Claim claim = GriefPrevention.instance.dataStore.getClaimAt(loc, true, null);
+						if (claim.allowAccess(p).equals(null)) {
 							e.setCancelled(false);
 						}
-						if (!currentOwner.getName().equals(p.getName()) && !p.hasPermission("tamemanagement.protecthorses.override")) {
-							p.sendMessage("§cYou can't interact with a horse you do not own.");
-							e.setCancelled(true);
+					} else {
+						if (horse.isTamed()) {
+							if (currentOwner == null) {
+								e.setCancelled(false);
+							}
+							if (!currentOwner.getName().equals(p.getName()) && !p.hasPermission("tamemanagement.protecthorses.override")) {
+								p.sendMessage("§cYou can't interact with a horse you do not own.");
+								e.setCancelled(true);
+							}
 						}
 					}
 				}

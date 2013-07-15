@@ -2,5 +2,6 @@ name: TameManagement
 main: com.etriacraft.tamemanagement.TameManagement
 version: 1.2.0
 author: MistPhizzle
+softdepend: [GriefPrevention]
 commands:
   tame:
