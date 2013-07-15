@@ -40,7 +40,7 @@ public class MobListener implements Listener {
 	public MobListener(TameManagement instance) {
 		this.plugin = instance;
 	}
-	
+
 	public static String Prefix;
 	public static String doesNotOwn;
 	public static String animalDoesNotBelongToYou;
@@ -140,10 +140,11 @@ public class MobListener implements Listener {
 						if (horse.isTamed()) {
 							if (currentOwner == null) {
 								e.setCancelled(false);
-							}
-							if (!currentOwner.getName().equals(p.getName()) && !p.hasPermission("tamemanagement.protecthorses.override")) {
-								p.sendMessage(Prefix + cantInteractWithHorse.replace("%owner", currentOwner.getName()));
-								e.setCancelled(true);
+							} else {
+								if (!currentOwner.getName().equals(p.getName()) && !p.hasPermission("tamemanagement.protecthorses.override")) {
+									p.sendMessage(Prefix + cantInteractWithHorse.replace("%owner", currentOwner.getName()));
+									e.setCancelled(true);
+								}
 							}
 						}
 					}
