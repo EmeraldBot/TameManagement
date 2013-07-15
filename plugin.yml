@@ -5,3 +5,15 @@ author: MistPhizzle
 softdepend: [GriefPrevention]
 commands:
   tame:
+permissions:
+  tamemanagement.admin:
+    default: op
+    children:
+      tamemanagement.reload: true
+      tamemanagement.setowner: true
+      tamemanagement.release: true
+      tamemanagement.horse.setcolor: true
+      tamemanagement.horse.setvariant: true
+      tamemanagement.horse.setstyle: true
+      tamemanagement.protecthorses.override: true
+      tamemanagement.invoke: true
