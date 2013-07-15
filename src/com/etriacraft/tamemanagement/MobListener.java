@@ -105,6 +105,7 @@ public class MobListener implements Listener {
 					if(horse.getOwner() == null) {
 						horse.setOwner(p);
 						horseclaims.remove(p.getName());
+						p.sendMessage("§aYou now own this horse.");
 						e.setCancelled(true);
 					} else {
 						p.sendMessage("§cThis horse is already owned.");
