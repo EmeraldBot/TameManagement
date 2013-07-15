@@ -1,0 +1,35 @@
+ConfigVersion:
+#If RespectGriefPrevention is true, it will allow a player to use all animals inside a claim they have access trust to.
+RespectGriefPrevention: false
+#If ProtectTames is true, it will protect the tamed mobs of players from being damaged by players other than the owner.
+ProtectTames: true
+#If Allow Transfers is true, it will allow players with the appropriate permission to transfer their own tames.
+AllowTransfers: true
+#If AllowReleases is true, it will allow players with appropriate permission to release their own animals.
+AllowReleases: true
+#If ProtectHorses is true, players will not be able to ride another player's horse or open horse inventory.
+ProtectHorses: true
+#If AllowHorseDye is true, players will be able to manipulate the colors of their horses using Dye.
+AllowHorseDye: true
+#Toggling any of the Breeding Options to false will make it so players cannot breed that animal. (Tamed Animals Only)
+Breeding:
+  Horse: true
+  Wolf: true
+  Ocelot: true
+
+messages:
+  Prefix: "&7[&6TameManagement&7] "
+  listener:
+    animalDoesNotBelongToYou: "&cYou can't damage an animal that doesn't belong to you."
+    horseAlreadyOwned: "&cThis horse is already owned by &3%owner&c."
+    cantInteractWithHorse: "&cYou can't interact with a horse belonging to &3&owner&c."
+    cantChangeStyle: "You can't change the style on &3%owner's &chorse."
+    styleChanged: '&aHorse style changed.'
+    cantChangeColor: "&cYou can't change the color of &3%owner's &chorse."
+    colorChanged: '&aHorse color changed.'
+    cantChangeVariant: "&cYou can't change the variant of &3%owner's &chorse."
+    changedVariant: '&aHorse variation changed.'
+    doesNotOwn: "&cThis animal belongs to &3%owner&c."
+    animalReleased: '&aYou have released this animal to the wild.'
+    animalTransferred: "&aYou have transferred this animal to &3%newowner"
+    horseClaimed: "&aYou now own this horse."

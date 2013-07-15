@@ -29,17 +29,32 @@ public class MobListener implements Listener {
 	TameManagement plugin;
 
 	public static boolean griefpreventionsupport;
-	public static HashMap<String, String> transfers = new HashMap();
-	public static HashMap<String, String> releases = new HashMap();
-	public static HashMap<String, Horse.Style> horsestyles = new HashMap();
-	public static HashMap<String, Horse.Color> horsecolors = new HashMap(); 
-	public static HashMap<String, Horse.Variant> horsevariants = new HashMap();
-	public static Set<String> horseclaims = new HashSet();
-	public static Set<String> getInfo = new HashSet();
+	public static HashMap<String, String> transfers = new HashMap<String, String>();
+	public static HashMap<String, String> releases = new HashMap<String, String>();
+	public static HashMap<String, Horse.Style> horsestyles = new HashMap<String, Horse.Style>();
+	public static HashMap<String, Horse.Color> horsecolors = new HashMap<String, Horse.Color>(); 
+	public static HashMap<String, Horse.Variant> horsevariants = new HashMap<String, Horse.Variant>();
+	public static Set<String> horseclaims = new HashSet<String>();
+	public static Set<String> getInfo = new HashSet<String>();
 
 	public MobListener(TameManagement instance) {
 		this.plugin = instance;
 	}
+	
+	public static String Prefix;
+	public static String doesNotOwn;
+	public static String animalDoesNotBelongToYou;
+	public static String cantInteractWithHorse;
+	public static String cantChangeStyle;
+	public static String horseAlreadyOwned;
+	public static String styleChanged;
+	public static String cantChangeColor;
+	public static String colorChanged;
+	public static String cantChangeVariant;
+	public static String changedVariant;
+	public static String animalReleased;
+	public static String animalTransferred;
+	public static String horseClaimed;
 	@EventHandler
 	public void onCreatureSpawn(CreatureSpawnEvent e) {
 		if (e.getSpawnReason() == SpawnReason.BREEDING) {
@@ -83,7 +98,7 @@ public class MobListener implements Listener {
 							}
 						}
 						if (!p.getName().equals(tameOwner.getName())) {
-							p.sendMessage("§cThis animal belongs to §3" + tameOwner.getName());
+							p.sendMessage(Prefix + doesNotOwn.replace("%owner", tameOwner.getName()));
 							e.setCancelled(true);
 						}
 					}
@@ -105,10 +120,10 @@ public class MobListener implements Listener {
 					if(horse.getOwner() == null) {
 						horse.setOwner(p);
 						horseclaims.remove(p.getName());
-						p.sendMessage("§aYou now own this horse.");
+						p.sendMessage(Prefix + horseClaimed);
 						e.setCancelled(true);
 					} else {
-						p.sendMessage("§cThis horse is already owned.");
+						p.sendMessage(Prefix + horseAlreadyOwned.replace("%owner", currentOwner.getName()));
 						horseclaims.remove(p.getName());
 						e.setCancelled(true);
 					}
@@ -127,7 +142,7 @@ public class MobListener implements Listener {
 								e.setCancelled(false);
 							}
 							if (!currentOwner.getName().equals(p.getName()) && !p.hasPermission("tamemanagement.protecthorses.override")) {
-								p.sendMessage("§cYou can't interact with §3" + currentOwner.getName() + "'s §chorse.");
+								p.sendMessage(Prefix + cantInteractWithHorse.replace("%owner", currentOwner.getName()));
 								e.setCancelled(true);
 							}
 						}
@@ -137,12 +152,12 @@ public class MobListener implements Listener {
 				if (horsestyles.containsKey(p.getName())) {
 					if (horse.isTamed()) {
 						if (!currentOwner.getName().equals(p.getName())) {
-							p.sendMessage("§cYou can't change the style on §3" + currentOwner.getName() + "'s §chorse.");
+							p.sendMessage(Prefix + cantChangeStyle.replace("%owner", currentOwner.getName()));
 							horsestyles.remove(p.getName());
 							e.setCancelled(true);
 						} else {
 							horse.setStyle(horsestyles.get(p.getName()));
-							p.sendMessage("§aHorse style changed.");
+							p.sendMessage(Prefix + styleChanged);
 							e.setCancelled(true);
 							horsestyles.remove(p.getName());
 						}
@@ -151,12 +166,12 @@ public class MobListener implements Listener {
 				if (horsecolors.containsKey(p.getName())) {
 					if (horse.isTamed()) {
 						if (!currentOwner.getName().equals(p.getName())) {
-							p.sendMessage("§cYou can't change the color of §3" + currentOwner.getName() + "'s §chorse.");
+							p.sendMessage(Prefix + cantChangeColor.replace("%owner", currentOwner.getName()));
 							horsecolors.remove(p.getName());
 							e.setCancelled(true);
 						} else {
 							horse.setColor(horsecolors.get(p.getName()));
-							p.sendMessage("§aHorse color changed.");
+							p.sendMessage(Prefix + colorChanged);
 							e.setCancelled(true);
 							horsecolors.remove(p.getName());
 						}
@@ -165,12 +180,12 @@ public class MobListener implements Listener {
 				if (horsevariants.containsKey(p.getName())) {
 					if (horse.isTamed()) {
 						if (!currentOwner.getName().equals(p.getName())) {
-							p.sendMessage("§cYou can't change the variant of §3" + currentOwner.getName() + "'s §chorse.");;
+							p.sendMessage(Prefix + cantChangeVariant.replace("%owner", currentOwner.getName()));
 							horsevariants.remove(p.getName());
 							e.setCancelled(true);
 						} else {
 							horse.setVariant(horsevariants.get(p.getName()));
-							p.sendMessage("§aHorse variation changed.");
+							p.sendMessage(Prefix + changedVariant);
 							e.setCancelled(true);
 							horsevariants.remove(p.getName());
 						}
@@ -181,7 +196,7 @@ public class MobListener implements Listener {
 			// This code runs on the /tame release command.
 			if (releases.containsKey(p.getName())) {
 				if (!p.getName().equals(currentOwner.getName())) {
-					p.sendMessage("§cThis animal belongs to §3" + currentOwner.getName() + "§c. Not you.");
+					p.sendMessage(Prefix + doesNotOwn.replace("%owner", currentOwner.getName()));
 					return;
 				}
 				((Tameable) entity).setOwner(null);
@@ -198,7 +213,7 @@ public class MobListener implements Listener {
 					}
 					ocelot.setCatType(Type.WILD_OCELOT);
 				}
-				p.sendMessage("§aYou have released this animal to the wild.");
+				p.sendMessage(Prefix + animalReleased);
 				e.setCancelled(true);
 				releases.remove(p.getName());
 			}
@@ -207,13 +222,13 @@ public class MobListener implements Listener {
 			if (transfers.containsKey(p.getName())) {
 				String newOwner = transfers.get(p.getName());
 				if (!p.getName().equals(currentOwner.getName())) {
-					p.sendMessage("§cThis animal belongs to §3" + currentOwner.getName() + "§c. Not you.");
+					p.sendMessage(Prefix + doesNotOwn.replace("%owner", currentOwner.getName()));
 					return;
 				}
 				Player p2 = Bukkit.getPlayer(newOwner);
 				AnimalTamer newOwner2 = p2;
 				((Tameable) entity).setOwner(newOwner2);
-				p.sendMessage("§aYou have transferred this animal to §3" + p2.getName() + "§a.");
+				p.sendMessage(Prefix + animalTransferred.replace("%newowner", newOwner));
 				transfers.remove(p.getName());		
 				e.setCancelled(true);
 			}

@@ -222,7 +222,7 @@ public class Commands {
 						s.sendMessage("§6Proper Usage: §3/tame invoke [Horse|Wolf|Ocelot]");
 						return true;
 					}
-					Set<Entity> calledEntities = new HashSet();
+					Set<Entity> calledEntities = new HashSet<Entity>();
 					Player player = (Player) s;
 					Location loc = player.getLocation();
 					World world = player.getWorld();

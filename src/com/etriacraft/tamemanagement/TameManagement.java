@@ -1,14 +1,10 @@
 package com.etriacraft.tamemanagement;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.logging.Logger;
 
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -27,18 +23,9 @@ public class TameManagement extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		instance = this;
-		this.log = this.getLogger();
+		TameManagement.log = this.getLogger();
 
-		configFile = new File(getDataFolder(), "config.yml");
-
-
-		try {
-			firstRun();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		config = new YamlConfiguration();
+		configCheck();
 
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(moblistener, this);
@@ -51,56 +38,30 @@ public class TameManagement extends JavaPlugin {
 		} catch (IOException e) {
 			// Failed to Submit Stats
 		}
-		configCheck();
-		
+
 		if (getConfig().getBoolean("RespectGriefPrevention")) {
 			if (getServer().getPluginManager().getPlugin("GriefPrevention") != null) {
-				this.log.info("GriefPrevention Support enabled.");
+				TameManagement.log.info("GriefPrevention Support enabled.");
 				MobListener.griefpreventionsupport = true;
 			} else {
-				this.log.info("GriefPrevention not found.");
+				TameManagement.log.info("GriefPrevention not found.");
 				MobListener.griefpreventionsupport = false;
 			}
 		}
-	}
-
-	public void firstRun() throws Exception {
-		if (!configFile.exists()) {
-			configFile.getParentFile().mkdirs();
-			copy(getResource("config.yml"), configFile);
-			log.info("Config not found. Generating.");
-		}
-	}
-
-	private void loadYamls() {
-		try {
-			config.load(configFile);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void copy (InputStream in, File file) {
-		try {
-			OutputStream out = new FileOutputStream(file);
-			byte[] buf = new byte[1024];
-			int len;
-			while ((len = in.read(buf))>0) {
-				out.write(buf,0,len);
-			}
-			out.close();
-			in.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void saveYamls() {
-		try {
-			config.save(configFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		MobListener.Prefix = colorize(getConfig().getString("messages.Prefix"));
+		MobListener.horseClaimed = colorize(getConfig().getString("messages.listener.horseClaimed"));
+		MobListener.animalDoesNotBelongToYou = colorize(getConfig().getString("messages.listener.animalDoesNotBelongToYou"));
+		MobListener.horseAlreadyOwned = colorize (getConfig().getString("messages.listener.horseAlreadyOwned"));
+		MobListener.cantInteractWithHorse = colorize(getConfig().getString("messages.listener.cantInteractWithHorse"));
+		MobListener.cantChangeStyle = colorize(getConfig().getString("messages.listener.cantChangeStyle"));
+		MobListener.styleChanged = colorize(getConfig().getString("messages.listener.styleChanged"));
+		MobListener.cantChangeColor = colorize(getConfig().getString("messages.listener.cantChangeColor"));
+		MobListener.colorChanged = colorize(getConfig().getString("messages.listener.colorChanged"));
+		MobListener.cantChangeVariant = colorize(getConfig().getString("messages.listener.cantChangeVariant"));
+		MobListener.changedVariant = colorize(getConfig().getString("messages.listener.changedVariant"));
+		MobListener.doesNotOwn = colorize(getConfig().getString("messages.listener.doesNotOwn"));
+		MobListener.animalReleased = colorize(getConfig().getString("messages.listener.animalReleased"));
+		MobListener.animalTransferred = colorize(getConfig().getString("messages.listener.animalTransferred"));
 	}
 
 	public static TameManagement getInstance() {
@@ -112,36 +73,37 @@ public class TameManagement extends JavaPlugin {
 	}
 
 	public void configCheck() {
-		int ConfigVersion = getConfig().getInt("ConfigVersion");
-		if (ConfigVersion != 130) {
-			this.log.info("Config Outdated. Updating.");
-			if (!getConfig().contains("ProtectTames")) {
-				getConfig().set("ProtectTames", true);
-			}
-			if (!getConfig().contains("RespectGriefPrevention")) {
-				getConfig().set("RespectGriefPrevention", false);
-			}
-			if (!getConfig().contains("AllowTransfers")) {
-				getConfig().set("AllowTransfers", true);
-			}
-			if (!getConfig().contains("AllowReleases")) {
-				getConfig().set("AllowReleases", true);
-			}
-			if (!getConfig().contains("ProtectHorses")) {
-				getConfig().set("ProtectHorses", true);
-			}
-			if (!getConfig().contains("Breeding.Horse")) {
-				getConfig().set("Breeding.Horse", true);
-			}
-			if (!getConfig().contains("Breeding.Wolf")) {
-				getConfig().set("Breeding.Wolf", true);
-			}
-			if (!getConfig().contains("Breeding.Ocelot")) {
-				getConfig().set("Breeding.Ocelot", true);
-			}
-			getConfig().set("ConfigVersion", 130);
-			saveConfig();
-		}
+		getConfig().addDefault("RespectGriefPrevention", false);
+		getConfig().addDefault("ProtectTames", true);
+		getConfig().addDefault("AllowTransfers", true);
+		getConfig().addDefault("AllowReleases", true);
+		getConfig().addDefault("ProtectHorses", true);
+		getConfig().addDefault("Breeding.Horse", true);
+		getConfig().addDefault("Breeding.Wolf", true);
+		getConfig().addDefault("Breeding.Ocelot", true);
+
+		getConfig().addDefault("messages.Prefix", "&7[&6TameManagement&7] ");
+		getConfig().addDefault("messages.listener.animalDoesNotBelongToYou", "&cYou cant damage an animal that doesnt belong to you.");
+		getConfig().addDefault("messages.listener.horseAlreadyOwned", "&cThis horse is already owned by &3%owner&c.");
+		getConfig().addDefault("messages.listener.cantInteractWithHorse", "&cYou cant interact with a horse belonging to &3&owner&c.");
+		getConfig().addDefault("messages.listener.cantChangeStyle", "You cant change the style on &3%owners &chorse.");
+		getConfig().addDefault("messages.listener.styleChanged", "&aHorse style changed.");
+		getConfig().addDefault("messages.listener.cantChangeColor", "&cYou cant change the color of &3%owners &chorse.");
+		getConfig().addDefault("messages.listener.colorChanged", "&aHorse color changed.");
+		getConfig().addDefault("messages.listener.cantChangeVariant", "&cYou cant change the variant of &3%owners &chorse.");
+		getConfig().addDefault("messages.listener.changedVariant", "&aHorse variation changed.");
+		getConfig().addDefault("messages.listener.doesNotOwn", "&cThis animal belongs to &3%owner&c.");
+		getConfig().addDefault("messages.listener.animalReleased", "&aYou have released this animal to the wild.");
+		getConfig().addDefault("messages.listener.animalTransferred", "&aYou have transferred this animal to &3%newowner");
+		getConfig().addDefault("messages.listener.horseClaimed", "&aYou now own this horse.");
+		// getConfig().set("ConfigVersion", 120); no longer needed
+		getConfig().options().copyDefaults(true);
+
+		saveConfig();
 	}
 
+	public static String colorize(String message) {
+		return message.replaceAll("(?i)&([a-fk-or0-9])", "\u00A7$1");
+	}
+	
 }
