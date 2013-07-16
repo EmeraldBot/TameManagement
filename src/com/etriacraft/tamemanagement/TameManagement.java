@@ -1,10 +1,8 @@
 package com.etriacraft.tamemanagement;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -12,9 +10,6 @@ public class TameManagement extends JavaPlugin {
 
 	protected static Logger log;
 	public static TameManagement instance;
-
-	File configFile;
-	FileConfiguration config;
 
 	Commands cmd;
 
