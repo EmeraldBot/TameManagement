@@ -1,4 +1,3 @@
-ConfigVersion:
 #If RespectGriefPrevention is true, it will allow a player to use all animals inside a claim they have access trust to.
 RespectGriefPrevention: false
 #If ProtectTames is true, it will protect the tamed mobs of players from being damaged by players other than the owner.

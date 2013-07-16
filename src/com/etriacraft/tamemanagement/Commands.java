@@ -31,7 +31,6 @@ public class Commands {
 	public static String noPermission;
 	public static String setVariant;
 	public static String setColor;
-	public static String setowner;
 	public static String claim;
 	public static String invoked;
 	public static String configReloaded;
@@ -62,7 +61,6 @@ public class Commands {
 					if (args.length == 1) {
 						s.sendMessage("-----§6TameManagement Horse Commands§f-----");
 						s.sendMessage("§3/tame horse claim§f - Claim a horse.");
-						s.sendMessage("§3/tame horse setstyle [Style]§f  - Change Horse Type.");
 						s.sendMessage("§3/tame horse setcolor [Color]§f - Change Horse Color.");
 						s.sendMessage("§3/tame horse setvariant [Variant]§f - Change horse variant.");
 						return true;
@@ -176,50 +174,6 @@ public class Commands {
 						if (args[2].equalsIgnoreCase("white")) {
 							MobListener.horsecolors.put(s.getName(), Horse.Color.WHITE);
 							s.sendMessage(Prefix + setColor.replace("%color", "white"));
-							return true;
-						}
-					}
-					if (args[1].equalsIgnoreCase("setstyle")) {
-						if (!s.hasPermission("tamemanagement.horse.setstyle")) {
-							s.sendMessage(Prefix + noPermission);
-							return true;
-						}
-						if (args.length != 3) {
-							s.sendMessage("§6Proper Usage: §3/tame horse setstyle [Style]");
-							s.sendMessage("§aProper Styles: §3BlackDots, WhiteDots, None, White, Whitefield");
-							return true;
-						}
-						if (!args[2].equalsIgnoreCase("blackdots") && !args[2].equalsIgnoreCase("whitedots") && !args[2].equalsIgnoreCase("None") && !args[2].equalsIgnoreCase("whitefield")) {
-							s.sendMessage("§6Proper Usage: §3/tame horse setstyle [Style]");
-							s.sendMessage("§aProper Styles: §3BlackDots, WhiteDots, None, White, Whitefield");
-							return true;
-						}
-						if (MobListener.horsestyles.containsKey(s.getName())) {
-							MobListener.horsestyles.remove(s.getName());
-						}
-						if (args[2].equalsIgnoreCase("blackdots")) {
-							MobListener.horsestyles.put(s.getName(), Horse.Style.BLACK_DOTS);
-							s.sendMessage("§aRight click the tamed horse that you would like to give Black Dots to.");
-							return true;
-						}
-						if (args[2].equalsIgnoreCase("whitedots")) {
-							MobListener.horsestyles.put(s.getName(), Horse.Style.WHITE_DOTS);
-							s.sendMessage("§aRight click the tamed horse that you would like to give white dots to.");
-							return true;
-						}
-						if (args[2].equalsIgnoreCase("none")) {
-							MobListener.horsestyles.put(s.getName(), Horse.Style.NONE);
-							s.sendMessage("§aRight click the tamed horse that you would like to remove all styles from.");
-							return true;
-						}
-						if (args[2].equalsIgnoreCase("white")) {
-							MobListener.horsestyles.put(s.getName(), Horse.Style.WHITE);
-							s.sendMessage("§aRight click the tamed horse that you would like to give White Socks / Stripes to.");
-							return true;
-						}
-						if (args[2].equalsIgnoreCase("whitefield")) {
-							MobListener.horsestyles.put(s.getName(), Horse.Style.WHITEFIELD);
-							s.sendMessage("§aRight click the tamed horse that you would like to apply milky splotches to.");
 							return true;
 						}
 					}
