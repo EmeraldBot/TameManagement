@@ -19,6 +19,19 @@ Breeding:
 
 messages:
   Prefix: "&7[&6TameManagement&7] "
+  commands:
+    noPermission: "&cYou do not have permission to do that."
+    setVariant: "&aRight click the horse that you would like to change to a %variant."
+    setColor: "&aRight click a horse to change its color to %color."
+    claim: "&aRight click the horse you would like to claim."
+    invoked: "&aYou have invoked &3%amount %mob."
+    configReloaded: "&aConfig reloaded."
+    releaseNotAllowed: "&cThis server does not allow animals to be released."
+    transfersNotAllowed: "&cThis server does not allow animal ownership to be transferred."
+    releaseMessage: "&aYou have released this animal to the wild."
+    playerNotOnline: "&cThat player is not online."
+    cantTransferOwnershipToSelf: "&cYou can't transfer ownership of an animal to yourself."
+    transferMessage: "&aOwnership of this animal transferred to &3newowner."
   listener:
     animalDoesNotBelongToYou: "&cYou can't damage an animal that doesn't belong to you."
     horseAlreadyOwned: "&cThis horse is already owned by &3%owner&c."
