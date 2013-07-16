@@ -27,7 +27,7 @@ public class Commands {
 		init();
 	}
 
-	public static String Prefix = MobListener.Prefix;
+	public static String Prefix;;
 	public static String noPermission;
 	public static String setVariant;
 	public static String setColor;

@@ -57,6 +57,7 @@ public class TameManagement extends JavaPlugin {
 		MobListener.doesNotOwn = colorize(getConfig().getString("messages.listener.doesNotOwn"));
 		MobListener.animalReleased = colorize(getConfig().getString("messages.listener.animalReleased"));
 		MobListener.animalTransferred = colorize(getConfig().getString("messages.listener.animalTransferred"));
+		Commands.Prefix = colorize(getConfig().getString("messages.Prefix"));
 		Commands.noPermission = colorize(getConfig().getString("messages.commands.noPermission"));
 		Commands.setVariant = colorize(getConfig().getString("messages.commands.setVariant"));
 		Commands.setColor = colorize(getConfig().getString("messages.commands.setColor"));
