@@ -8,8 +8,6 @@ AllowTransfers: true
 AllowReleases: true
 #If ProtectHorses is true, players will not be able to ride another player's horse or open horse inventory.
 ProtectHorses: true
-#If AllowHorseDye is true, players will be able to manipulate the colors of their horses using Dye.
-AllowHorseDye: true
 #Toggling any of the Breeding Options to false will make it so players cannot breed that animal. (Tamed Animals Only)
 Breeding:
   Horse: true
