@@ -32,7 +32,7 @@ messages:
   listener:
     animalDoesNotBelongToYou: "&cYou can't damage an animal that doesn't belong to you."
     horseAlreadyOwned: "&cThis horse is already owned by &3%owner&c."
-    cantInteractWithHorse: "&cYou can't interact with a horse belonging to &3&owner&c."
+    cantInteractWithHorse: "&cYou can't interact with a horse belonging to &3%owner&c."
     cantChangeStyle: "You can't change the style on &3%owner's &chorse."
     styleChanged: '&aHorse style changed.'
     cantChangeColor: "&cYou can't change the color of &3%owner's &chorse."
