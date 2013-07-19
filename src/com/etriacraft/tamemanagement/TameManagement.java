@@ -104,7 +104,7 @@ public class TameManagement extends JavaPlugin {
 		getConfig().addDefault("messages.commands.transferMessage", "&aOwnership of this animal transferred to &3%newowner&a.");
 		getConfig().addDefault("messages.listener.animalDoesNotBelongToYou", "&cYou cant damage an animal that doesnt belong to you.");
 		getConfig().addDefault("messages.listener.horseAlreadyOwned", "&cThis horse is already owned by &3%owner&c.");
-		getConfig().addDefault("messages.listener.cantInteractWithHorse", "&cYou cant interact with a horse belonging to &3&owner&c.");
+		getConfig().addDefault("messages.listener.cantInteractWithHorse", "&cYou cant interact with a horse belonging to &3%owner&c.");
 		getConfig().addDefault("messages.listener.cantChangeStyle", "You cant change the style on &3%owners &chorse.");
 		getConfig().addDefault("messages.listener.styleChanged", "&aHorse style changed.");
 		getConfig().addDefault("messages.listener.cantChangeColor", "&cYou cant change the color of &3%owners &chorse.");
