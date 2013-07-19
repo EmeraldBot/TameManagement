@@ -23,6 +23,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class MobListener implements Listener {
 
@@ -201,6 +202,19 @@ public class MobListener implements Listener {
 					return;
 				}
 				((Tameable) entity).setOwner(null);
+				if (entity instanceof Horse) {
+					Horse horse = (Horse) entity;
+					if (horse.getInventory().getSaddle() != null) {
+						ItemStack horseSaddle = horse.getInventory().getSaddle();
+						horse.getInventory().setSaddle(null);
+						p.getWorld().dropItem(p.getLocation(), horseSaddle);
+					}
+					if (horse.getInventory().getArmor() != null) {
+						ItemStack horseArmor = horse.getInventory().getArmor();
+						horse.getInventory().setArmor(null);
+						p.getWorld().dropItem(p.getLocation(), horseArmor);
+					}
+				}
 				if (entity instanceof Wolf) {
 					Wolf wolf = (Wolf) entity;
 					if (wolf.isSitting()) {
