@@ -94,8 +94,11 @@ public class MobListener implements Listener {
 						if (griefpreventionsupport == true) {
 							Location loc = damaged.getLocation();
 							Claim claim = GriefPrevention.instance.dataStore.getClaimAt(loc, true, null);
-							if (claim.allowAccess(p).equals(null)) {
-								e.setCancelled(false);
+							try {
+								if (claim.allowAccess(p).equals(null)) {
+									e.setCancelled(false);
+								}
+							} catch (Exception ex) {
 							}
 						}
 						if (!p.getName().equals(tameOwner.getName())) {
