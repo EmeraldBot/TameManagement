@@ -98,7 +98,7 @@ public class TameManagement extends JavaPlugin {
 		getConfig().addDefault("messages.commands.configReloaded", "&aConfig reloaded.");
 		getConfig().addDefault("messages.commands.releaseNotAllowed", "&cThis server does not allow animals to be released.");
 		getConfig().addDefault("messages.commands.transfersNotAllowed", "&cThis server does not allow transferring of animal ownership.");
-		getConfig().addDefault("messages.commands.releaseMessage", "&aYou have released this animal to the wild.");
+		getConfig().addDefault("messages.commands.releaseMessage", "&aRight click the animal you would like to release.");
 		getConfig().addDefault("messages.commands.playerNotOnline", "&cThat player is not online.");
 		getConfig().addDefault("messages.commands.cantTransferOwnershipToSelf", "&cYou can't transfer animal ownership to yourself.");
 		getConfig().addDefault("messages.commands.transferMessage", "&aOwnership of this animal transferred to &3%newowner&a.");

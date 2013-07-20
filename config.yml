@@ -25,7 +25,7 @@ messages:
     configReloaded: "&aConfig reloaded."
     releaseNotAllowed: "&cThis server does not allow animals to be released."
     transfersNotAllowed: "&cThis server does not allow animal ownership to be transferred."
-    releaseMessage: "&aYou have released this animal to the wild."
+    releaseMessage: "&aRight click the animal you would like to release."
     playerNotOnline: "&cThat player is not online."
     cantTransferOwnershipToSelf: "&cYou can't transfer ownership of an animal to yourself."
     transferMessage: "&aOwnership of this animal transferred to &3newowner."
